@@ -10,10 +10,10 @@ nintendoLogo .set_rgb( 47, 157, 39 );
 nintendoLogo .font="ARCADE";
 
 local clock = fe.add_text( "", 0, 0, 320, 120 );
-//clock.align = Align.Centre;
-clock.align = Align.Left;
+clock.align = Align.Centre;
+//clock.align = Align.Left;
 //clock.align = Align.TopCentre;
-clock.charsize = 75;
+clock.charsize = 72;
 clock.set_rgb( 47, 157, 39 );
 //clock.set_bg_rgb( 100, 10, 2 );
 clock.font="DS-DIGIB";
@@ -138,7 +138,7 @@ modes.append( marioAni() );
 
 
 local clockAni = modes[0];
-
+clockAni.play();
 local isPlay = false;
 
 function update_clock( ttime )
@@ -161,7 +161,7 @@ function update_clock( ttime )
 	}
 	//clock.msg = format("%02d", now.hour) + ":" + format("%02d", now.min ) + ":" + format("%02d", now.sec );
 	clock.msg = "" + format("%02d", now.hour) + ":" + format("%02d", now.min ) + ":" + format("%02d", now.sec );
-	yyyymmdd.msg = format("%04d", now.year) + "/" + format("%02d", now.month ) + "/" + format("%02d", now.day ) + "/" + week ;
+	yyyymmdd.msg = format("%04d", now.year) + "/" + format("%02d", now.month+1 ) + "/" + format("%02d", now.day ) + "/" + week ;
 
 	
 	if( sec%10 == 0 && isPlay == false )
