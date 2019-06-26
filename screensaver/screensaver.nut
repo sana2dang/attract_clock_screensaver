@@ -3,6 +3,22 @@
 
 class UserConfig { 
 	</ label="시계 or 앨범액자", help="시계 or 앨범액자", options="CLOCK,ALBUM", order=1 /> screenType="CLOCK";
+	</ label="======================================", order=2 /> tmp1="-";
+	</ label="년월일 font size", help="년월일 font size", options="20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70", order=3 /> ymd_size=32;
+	</ label="년월일 Text Red(R) (0-255) Color", help="년월일 Text Red(R) (0-255) Color", option="47", order=4 /> ymd_red=47;
+	</ label="년월일 Text Green(G) (0-255) Color", help="년월일 Text Green(G) (0-255) Color", option="157", order=5 /> ymd_green=157;
+	</ label="년월일 Text Blue(B) (0-255) Color", help="년월일 Text Blue(B) (0-255) Color", option="39", order=6 />  ymd_blue=39;
+	</ label="======================================", order=7 /> tmp2="-";
+	</ label="시계 font size", help="시계 font size", options="20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70", order=8 /> clock_size=69;
+	</ label="시계 Text Red(R) (0-255) Color", help="시계 Text Red(R) (0-255) Color", option="47", order=9 /> clock_red=47;
+	</ label="시계 Text Green(G) (0-255) Color", help="시계 Text Green(G) (0-255) Color", option="157", order=10 /> clock_green=157;
+	</ label="시계 Text Blue(B) (0-255) Color", help="시계 Text Blue(B) (0-255) Color", option="39", order=11 />  clock_blue=39;
+	</ label="======================================", order=12 /> tmp3="-";
+	</ label="Custom 텍스트 문구", help="Custom 텍스트 문구", option="Nintendo", order=13 /> custom_text="Nintendo";
+	</ label="Custom font size", help="Custom font size", options="20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70", order=14 /> custom_size=30;
+	</ label="Custom Text Red(R) (0-255) Color", help="Custom Text Red(R) (0-255) Color", option="47", order=15 /> custom_red=47;
+	</ label="Custom Text Green(G) (0-255) Color", help="Custom Text Green(G) (0-255) Color", option="157", order=16 /> custom_green=157;
+	</ label="Custom Text Blue(B) (0-255) Color", help="Custom Text Blue(B) (0-255) Color", option="39", order=17 />  custom_blue=39;
 }
 
 local my_config = fe.get_config();
@@ -18,31 +34,29 @@ fe.load_module("file");
 if( my_config["screenType"] == "CLOCK" )
 {
 
-
-	local nintendoLogo = fe.add_text( "Nintendo", 0, 95, 320, 40 );
-	nintendoLogo .align = Align.Centre;
-	nintendoLogo .charsize = 30;
-	nintendoLogo .set_rgb( 47, 157, 39 );
-	nintendoLogo .font="ARCADE";
+	local yyyymmdd = fe.add_text( "", 0, 0, 320, 40 );
+	yyyymmdd.align = Align.Centre;
+	yyyymmdd.charsize = abs(("0"+my_config["ymd_size"]).tointeger());		
+	yyyymmdd.set_rgb( abs(("0"+my_config["ymd_red"]).tointeger()), abs(("0"+my_config["ymd_green"]).tointeger()), abs(("0"+my_config["ymd_blue"]).tointeger()) );
+	yyyymmdd.font="DS-DIGIB";
+	//yyyymmdd.font="DigitalDismay";
 
 	local clock = fe.add_text( "", 0, 0, 320, 120 );
 	clock.align = Align.Centre;
 	//clock.align = Align.Left;
 	//clock.align = Align.TopCentre;
-	clock.charsize = 72;
-	clock.set_rgb( 47, 157, 39 );
+	clock.charsize = abs(("0"+my_config["clock_size"]).tointeger());
+	clock.set_rgb( abs(("0"+my_config["clock_red"]).tointeger()), abs(("0"+my_config["clock_green"]).tointeger()), abs(("0"+my_config["clock_blue"]).tointeger()) );
 	//clock.set_bg_rgb( 100, 10, 2 );
-	clock.font="DS-DIGIB";
+	clock.font="DigitalDismay";
 	//clock.font="ARCADECLASSIC";
+	
 
-	local yyyymmdd = fe.add_text( "", 0, 0, 320, 40 );
-	yyyymmdd.align = Align.Centre;
-	yyyymmdd.charsize = 32;
-	yyyymmdd.set_rgb( 47, 157, 39 );
-	yyyymmdd.font="DS-DIGIB";
-
-
-
+	local nintendoLogo = fe.add_text( "Nintendo", 0, 95, 320, 40 );
+	nintendoLogo.align = Align.Centre;
+	nintendoLogo.charsize = abs(("0"+my_config["custom_size"]).tointeger());
+	nintendoLogo.set_rgb( abs(("0"+my_config["custom_red"]).tointeger()), abs(("0"+my_config["custom_green"]).tointeger()), abs(("0"+my_config["custom_blue"]).tointeger()) );
+	nintendoLogo.font="ARCADE";
 
 	class sonicAni
 	{
@@ -181,6 +195,7 @@ if( my_config["screenType"] == "CLOCK" )
 		}
 		//clock.msg = format("%02d", now.hour) + ":" + format("%02d", now.min ) + ":" + format("%02d", now.sec );
 		clock.msg = "" + format("%02d", now.hour) + ":" + format("%02d", now.min ) + ":" + format("%02d", now.sec );
+		//clock.msg = "" + "00" + ":" + "00" + ":" + "00";
 		yyyymmdd.msg = format("%04d", now.year) + "/" + format("%02d", now.month+1 ) + "/" + format("%02d", now.day ) + "/" + week ;
 
 		
