@@ -4,7 +4,7 @@
 class UserConfig { 
 	</ label="시계 or 앨범액자", help="시계 or 앨범액자", options="CLOCK,ALBUM", order=1 /> screenType="CLOCK";
 	</ label="======================================", order=2 /> tmp1="-";
-	</ label="년월일 font size", help="년월일 font size", options="20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70", order=3 /> ymd_size=32;
+	</ label="년월일 font size", help="년월일 font size", options="20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70", order=3 /> ymd_size=29;
 	</ label="년월일 Text Red(R) (0-255) Color", help="년월일 Text Red(R) (0-255) Color", option="47", order=4 /> ymd_red=47;
 	</ label="년월일 Text Green(G) (0-255) Color", help="년월일 Text Green(G) (0-255) Color", option="157", order=5 /> ymd_green=157;
 	</ label="년월일 Text Blue(B) (0-255) Color", help="년월일 Text Blue(B) (0-255) Color", option="39", order=6 />  ymd_blue=39;
@@ -34,8 +34,8 @@ fe.load_module("file");
 if( my_config["screenType"] == "CLOCK" )
 {
 
-	local yyyymmdd = fe.add_text( "", 0, 0, 320, 40 );
-	yyyymmdd.align = Align.Centre;
+	local yyyymmdd = fe.add_text( "", 0, 0, 302, 40 );
+	yyyymmdd.align = Align.Right;
 	yyyymmdd.charsize = abs(("0"+my_config["ymd_size"]).tointeger());		
 	yyyymmdd.set_rgb( abs(("0"+my_config["ymd_red"]).tointeger()), abs(("0"+my_config["ymd_green"]).tointeger()), abs(("0"+my_config["ymd_blue"]).tointeger()) );
 	yyyymmdd.font="DS-DIGIB";
