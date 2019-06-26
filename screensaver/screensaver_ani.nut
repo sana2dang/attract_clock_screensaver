@@ -32,27 +32,6 @@ fe.load_module("file");
 
 local playCycleTime = abs(("0"+my_config["cycleTime"]).tointeger());
 
-function random_file(path) 
-{
-	local dir = DirectoryListing( path );
-	local dir_array = [];
-	local filename;
-	foreach ( f in dir.results )
-	{
-		/* 
-		if(f.find(".png")!= null )
-		{
-			dir_array.append(f);
-		}
-		*/
-		dir_array.append(f);
-		
-	}
-	
-	return dir_array[ rand()%dir_array.len()];
-}
-	 
-	 
 if( my_config["screenType"] == "CLOCK" )
 {
 
@@ -74,22 +53,134 @@ if( my_config["screenType"] == "CLOCK" )
 	//clock.font="ARCADECLASSIC";
 	
 
-	local nintendoLogo = fe.add_text( my_config["custom_text"], 0, 95, 320, 40 );
+	local nintendoLogo = fe.add_text( "Nintendo", 0, 95, 320, 40 );
 	nintendoLogo.align = Align.Centre;
 	nintendoLogo.charsize = abs(("0"+my_config["custom_size"]).tointeger());
 	nintendoLogo.set_rgb( abs(("0"+my_config["custom_red"]).tointeger()), abs(("0"+my_config["custom_green"]).tointeger()), abs(("0"+my_config["custom_blue"]).tointeger()) );
 	nintendoLogo.font="ARCADE";
 
-	local imageView = fe.add_image( random_file("./gif"), 0,140,320,90);
-	imageView.preserve_aspect_ratio = true;
-	
-	local usePlay = false;
-		
+	class sonicAni
+	{
+		obj=0;
+		obj_config=0;
+		constructor()
+		{
+			obj = fe.add_image("./gif/sonic.gif", 0, 100, 60, 60 );
+			obj_config = {
+				when = Transition.StartLayout,
+				property = "position",  
+				start = { x = 0, y = 170 }, 
+				end = { x = 280, y = 170 }, 
+				restart = true, 
+				loop = true,
+				delay  = 10,
+				tween = Tween.Bounce, 
+				time = 5000
+			}
+			animation.add( PropertyAnimation( obj, obj_config ) );
+			obj.visible = false;
+			obj.video_playing = false;
+			obj.preserve_aspect_ratio = true;
+		}
+		function stop()
+		{
+			obj.visible = false;
+			obj.video_playing = false;
+		}
+		function play( )
+		{
+			obj.visible = true;
+			obj.video_playing = true;
+		}
+	}
+
+	class marioAni
+	{
+		obj=0;
+		obj_config=0;
+		constructor()
+		{
+			obj = fe.add_image("./gif/mario.gif", 0, 100, 320, 140 );
+			obj.visible = false;
+			obj.video_playing = false;		
+			obj.preserve_aspect_ratio = true;
+		}
+		function stop()
+		{
+			obj.visible = false;
+			obj.video_playing = false;
+		}
+		function play( )
+		{
+			obj.visible = true;
+			obj.video_playing = true;
+		}
+	}
+
+	class kirbyAni
+	{
+		obj=0;
+		obj_config=0;
+		constructor()
+		{
+			obj = fe.add_image("./gif/kirby.gif", 0, 100, 320, 140 );
+			obj.visible = false;
+			obj.video_playing = false;		
+			obj.preserve_aspect_ratio = true;
+		}
+		function stop()
+		{
+			obj.visible = false;
+			obj.video_playing = false;
+		}
+		function play( )
+		{
+			obj.visible = true;
+			obj.video_playing = true;
+		}
+	}
+
+	class zeldaAni
+	{
+		obj=0;
+		obj_config=0;
+		constructor()
+		{
+			obj = fe.add_image("./gif/zelda.gif", 0, 100, 320, 140 );
+			obj.visible = false;
+			obj.video_playing = false;		
+			obj.preserve_aspect_ratio = true;
+		}
+		function stop()
+		{
+			obj.visible = false;
+			obj.video_playing = false;
+		}
+		function play( )
+		{
+			obj.visible = true;
+			obj.video_playing = true;
+		}
+	}
+
+	local modes = [];
+	modes.append( sonicAni() ); 
+	modes.append( marioAni() );
+	modes.append( kirbyAni() );
+	modes.append( zeldaAni() );
+	modes.append( sonicAni() ); 
+	modes.append( marioAni() );
+
+
+	local clockAni = modes[0];
+	clockAni.play();
+	local isPlay = false;
+
 	function update_clock( ttime )
 	{
 		local now = date();
-		local min =  format("%02d", now.min ).tointeger();
 		local sec =  format("%02d", now.sec ).tointeger();
+		local min =  format("%02d", now.min ).tointeger();
 		local week = "";
 		switch( now.wday )
 		{
@@ -100,22 +191,27 @@ if( my_config["screenType"] == "CLOCK" )
 			case 4:	week = "Thu";	break;
 			case 5:	week = "Fri";	break;
 			case 6:	week = "Sat";	break;
-			default:	week = "-"	;	break;
+			default:	week = "?"	;	break;
 			
 		}
+		//clock.msg = format("%02d", now.hour) + ":" + format("%02d", now.min ) + ":" + format("%02d", now.sec );
 		clock.msg = "" + format("%02d", now.hour) + ":" + format("%02d", now.min ) + ":" + format("%02d", now.sec );
 		//clock.msg = "" + "00" + ":" + "00" + ":" + "00";
 		yyyymmdd.msg = format("%04d", now.year) + "/" + format("%02d", now.month+1 ) + "/" + format("%02d", now.day ) + "/" + week ;
 
-		if( min%playCycleTime == 0 && sec == 0 && usePlay == false )
+		
+		if( min%playCycleTime == 0 && sec == 0 && isPlay == false )
 		{
-			imageView.file_name = random_file("./gif");
-			usePlay = true;
+			clockAni.stop();
+			clockAni = modes[rand()%modes.len()];
+			//clockAni = modes[ sec/10 ];
+			clockAni.play();
+			isPlay = true;
 		}	
 
-		if( min%playCycleTime == 0 && sec == 1 && usePlay == true )
+		if( min%playCycleTime == 0 && sec == 1 && isPlay == true )
 		{
-			usePlay = false;
+			isPlay = false;
 		}
 		
 	}
@@ -144,26 +240,48 @@ if( my_config["screenType"] == "ALBUM" )
 {
 	local clock = fe.add_text( "", 0, 0, 320, 120 );
 	
+	function random_file(path) {
+		local dir = DirectoryListing( path );
+
+		local dir_array = [];
+		local filename;
+		foreach ( f in dir.results )
+		{
+			/* 
+			if(f.find(".png")!= null )
+			{
+				dir_array.append(f);
+			}
+			*/
+			dir_array.append(f);
+			
+		}
+		
+		return dir_array[ rand()%dir_array.len()];
+	}
+	 
+	// usage. This would add a random image from the local "arcade" folder at a set size. 
 	local imageView = fe.add_image( random_file("./album"), 0,0,320,240);
 	imageView.preserve_aspect_ratio = true;
+	imageView.zorder = 9999;
 	
-	local usePlay = false;
+	local albumPlay = false;
 	
 	function update_clock( ttime )
 	{
 		local now = date();
-		local min =  format("%02d", now.min ).tointeger();
 		local sec =  format("%02d", now.sec ).tointeger();
+		local min =  format("%02d", now.min ).tointeger();
 		clock.msg = "";
 		
-		if( min%playCycleTime == 0 && sec == 0 && usePlay == false )
+		if( min%playCycleTime == 0 && sec == 0 && albumPlay == false )
 		{
 			imageView.file_name = random_file("./album");
-			usePlay = true;
+			albumPlay = true;
 		}
-		if( min%playCycleTime == 0 && sec == 1 && usePlay == true )
+		if( min%playCycleTime == 0 && sec == 1 && albumPlay == true )
 		{
-			usePlay = false;
+			albumPlay = false;
 		}
 		
 	}
