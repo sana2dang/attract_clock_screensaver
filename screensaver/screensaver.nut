@@ -60,7 +60,9 @@ if( my_config["screenType"] == "CLOCK" )
 	yyyymmdd.align = Align.Right;
 	yyyymmdd.charsize = abs(("0"+my_config["ymd_size"]).tointeger());		
 	yyyymmdd.set_rgb( abs(("0"+my_config["ymd_red"]).tointeger()), abs(("0"+my_config["ymd_green"]).tointeger()), abs(("0"+my_config["ymd_blue"]).tointeger()) );
-	yyyymmdd.font="DS-DIGIB";
+	yyyymmdd.font="YYYYMMDD";
+	//yyyymmdd.set_bg_rgb(231,231,231);
+	//yyyymmdd.set_pos(83,0);
 	//yyyymmdd.font="DigitalDismay";
 
 	local clock = fe.add_text( "", 0, 0, 320, 120 );
@@ -70,7 +72,7 @@ if( my_config["screenType"] == "CLOCK" )
 	clock.charsize = abs(("0"+my_config["clock_size"]).tointeger());
 	clock.set_rgb( abs(("0"+my_config["clock_red"]).tointeger()), abs(("0"+my_config["clock_green"]).tointeger()), abs(("0"+my_config["clock_blue"]).tointeger()) );
 	//clock.set_bg_rgb( 100, 10, 2 );
-	clock.font="DigitalDismay";
+	clock.font="CLOCK";
 	//clock.font="ARCADECLASSIC";
 	
 
@@ -78,7 +80,7 @@ if( my_config["screenType"] == "CLOCK" )
 	nintendoLogo.align = Align.Centre;
 	nintendoLogo.charsize = abs(("0"+my_config["custom_size"]).tointeger());
 	nintendoLogo.set_rgb( abs(("0"+my_config["custom_red"]).tointeger()), abs(("0"+my_config["custom_green"]).tointeger()), abs(("0"+my_config["custom_blue"]).tointeger()) );
-	nintendoLogo.font="ARCADE";
+	nintendoLogo.font="CUSTOM";
 
 	local imageView = fe.add_image( random_file("./gif"), 0,140,320,90);
 	imageView.preserve_aspect_ratio = true;
