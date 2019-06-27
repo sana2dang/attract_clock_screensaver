@@ -86,6 +86,7 @@ if( my_config["screenType"] == "CLOCK" )
 	imageView.preserve_aspect_ratio = true;
 	
 	local usePlay = false;
+	local initPlay = false;
 		
 	function update_clock( ttime )
 	{
@@ -109,6 +110,13 @@ if( my_config["screenType"] == "CLOCK" )
 		//clock.msg = "" + "00" + ":" + "00" + ":" + "00";
 		yyyymmdd.msg = format("%04d", now.year) + "/" + format("%02d", now.month+1 ) + "/" + format("%02d", now.day ) + "/" + week ;
 
+		if( initPlay == false )
+		{
+			imageView.file_name = random_file("./gif");
+			usePlay = true;
+			initPlay = true;
+		}
+		
 		if( min%playCycleTime == 0 && sec == 0 && usePlay == false )
 		{
 			imageView.file_name = random_file("./gif");
@@ -123,6 +131,7 @@ if( my_config["screenType"] == "CLOCK" )
 	}
 
 	fe.add_ticks_callback( this, "update_clock" );
+	
 	/*
 		Linear = "linear",
 		Cubic = "cubic",
@@ -150,6 +159,7 @@ if( my_config["screenType"] == "ALBUM" )
 	imageView.preserve_aspect_ratio = true;
 	
 	local usePlay = false;
+	local initPlay = false;
 	
 	function update_clock( ttime )
 	{
@@ -157,6 +167,13 @@ if( my_config["screenType"] == "ALBUM" )
 		local min =  format("%02d", now.min ).tointeger();
 		local sec =  format("%02d", now.sec ).tointeger();
 		clock.msg = "";
+		
+		if( initPlay == false )
+		{
+			imageView.file_name = random_file("./album");
+			usePlay = true;
+			initPlay = true;
+		}
 		
 		if( min%playCycleTime == 0 && sec == 0 && usePlay == false )
 		{
